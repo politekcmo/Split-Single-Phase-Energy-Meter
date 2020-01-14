@@ -51,7 +51,7 @@ String mqtt_topic = "";
 String mqtt_user = "";
 String mqtt_pass = "";
 String mqtt_feed_prefix = "";
-String mqtt_publishdelay = "";
+String mqtt_publishdelay = "";  //added by me for publish delay
 
 // Calibration Settings
 String voltage_cal = "";
