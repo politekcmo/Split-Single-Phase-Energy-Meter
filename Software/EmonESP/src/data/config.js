@@ -99,6 +99,7 @@ function ConfigViewModel() {
     "mqtt_feed_prefix": "",
     "mqtt_user": "",
     "mqtt_pass": "",
+    "mqtt_publishdelay": "",  //added by me to reflect delay addition
     "www_username": "",
     "www_password": "",
 	"voltage_cal": "",
@@ -300,7 +301,8 @@ function EmonEspViewModel() {
       topic: self.config.mqtt_topic(),
       prefix: self.config.mqtt_feed_prefix(),
       user: self.config.mqtt_user(),
-      pass: self.config.mqtt_pass()
+      pass: self.config.mqtt_pass(),
+      publishdelay: self.config.mqtt_publishdelay() //added by me to reflect delay addition
     };
 
     self.saveMqttFetching(true);
