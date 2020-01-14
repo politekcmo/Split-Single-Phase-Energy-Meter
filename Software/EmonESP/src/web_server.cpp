@@ -287,12 +287,13 @@ void handleSaveMqtt(AsyncWebServerRequest *request) {
                    request->arg("topic"),
                    request->arg("prefix"),
                    request->arg("user"),
+                   request->arg("publish delay"),  //Added to config delay time, var defined in config.cpp
                    pass);
 
   char tmpStr[200];
-  snprintf(tmpStr, sizeof(tmpStr), "Saved: %s %s %s %s %s", mqtt_server.c_str(),
-           mqtt_topic.c_str(), mqtt_feed_prefix.c_str(), mqtt_user.c_str(), mqtt_pass.c_str());
-  DBUGLN(tmpStr);
+  snprintf(tmpStr, sizeof(tmpStr), "Saved: %s %s %s %s %s %s", mqtt_server.c_str(),
+           mqtt_topic.c_str(), mqtt_feed_prefix.c_str(), mqtt_user.c_str(), mqtt_publishdelay.c_str(), mqtt_pass.c_str());
+  DBUGLN(tmpStr);  // Added %s and c_str for delay
 
   response->setCode(200);
   response->print(tmpStr);
@@ -565,7 +566,7 @@ void handleRestart(AsyncWebServerRequest *request) {
 // url /input
 // e.g http://192.168.0.75/input?string=CT1:3935,CT2:325,T1:12.5,T2:16.9,T3:11.2,T4:34.7
 // -------------------------------------------------------------------
-void handleInput(AsyncWebServerRequest *request) {
+void handleInput(AsyncWebServerRequest *request) { 
   AsyncResponseStream *response;
   if (false == requestPreProcess(request, response, "text/plain")) {
     return;
