@@ -100,7 +100,7 @@ void mqtt_publish(String data)
       }
     }
     // send data via mqtt
-    //delay(100);
+    delay(mqtt_publishdelay.c_str()); // delayed using pointer to publishdelay time
     //DBUGS.printf("%s = %s\r\n", topic.c_str(), mqtt_data.c_str());
     mqttclient.publish(topic.c_str(), mqtt_data.c_str());
     topic = mqtt_topic + "/" + mqtt_feed_prefix;
