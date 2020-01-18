@@ -287,8 +287,9 @@ void handleSaveMqtt(AsyncWebServerRequest *request) {
                    request->arg("topic"),
                    request->arg("prefix"),
                    request->arg("user"),
-                   request->arg("publish delay"),  //Added to config delay time, var defined in config.cpp
-                   pass);
+                   pass,
+                   request->arg("publishdelay")  //Added to config delay time, var defined in config.cpp
+                   );
 
   char tmpStr[200];
   snprintf(tmpStr, sizeof(tmpStr), "Saved: %s %s %s %s %s %s", mqtt_server.c_str(),
@@ -431,6 +432,7 @@ void handleStatus(AsyncWebServerRequest *request) {
   s += ",\"mqtt_server\":\"" + mqtt_server + "\"";
   s += ",\"mqtt_topic\":\"" + mqtt_topic + "\"";
   s += ",\"mqtt_user\":\"" + mqtt_user + "\"";
+  s += ",\"mqtt_publishdelay\":\"" + mqtt_publishdelay + "\"";
   //s += ",\"mqtt_pass\":\""+mqtt_pass+"\""; security risk: DONT RETURN PASSWORDS
   s += ",\"mqtt_feed_prefix\":\"" + mqtt_feed_prefix + "\"";
   s += ",\"www_username\":\"" + www_username + "\"";
@@ -492,7 +494,9 @@ void handleConfig(AsyncWebServerRequest *request) {
   if (mqtt_pass != 0) {
     s += dummyPassword;
   }
-  s += "\",";
+  s += "\","; 
+  s += "\"mqtt_publishdelay\":\"" + mqtt_publishdelay + "\",";
+
   s += "\"www_username\":\"" + www_username + "\",";
   s += "\"www_password\":\"";
   if (www_password != 0) {

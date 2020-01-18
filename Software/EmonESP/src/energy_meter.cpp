@@ -54,6 +54,7 @@ unsigned short CurrentGainCT1 = CURRENT_GAIN_CT1;
 unsigned short CurrentGainCT2 = CURRENT_GAIN_CT2;
 unsigned short LineFreq = LINE_FREQ;
 unsigned short PGAGain = PGA_GAIN;
+unsigned short PublishDelay;
 #ifdef SOLAR_METER
 unsigned short VoltageGainSolar = VOLTAGE_GAIN_SOLAR;
 unsigned short SolarGainCT1 = SOLAR_GAIN_CT1;
@@ -119,6 +120,8 @@ void energy_meter_setup() {
   if (ct2_cal.toInt() > 0) CurrentGainCT2 = ct2_cal.toInt();
   if (freq_cal.toInt() > 0) LineFreq = freq_cal.toInt();
   if (gain_cal.toInt() > 0) PGAGain = gain_cal.toInt();
+    if (mqtt_publishdelay.toInt() > 0) PublishDelay = mqtt_publishdelay.toInt();
+
 
   /*Initialise the ATM90E32 & Pass CS pin and calibrations to its library -
     the 2nd (B) current channel is not used with the split phase meter */

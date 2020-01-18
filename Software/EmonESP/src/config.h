@@ -61,7 +61,7 @@ extern String mqtt_topic;
 extern String mqtt_user;
 extern String mqtt_pass;
 extern String mqtt_feed_prefix;
-
+extern String mqtt_publishdelay;
 // Calibration Settings for CircuitSetup energy meter
 extern String voltage_cal;
 extern String ct1_cal;
@@ -87,7 +87,7 @@ extern void config_save_emoncms(String server, String path, String node, String 
 // -------------------------------------------------------------------
 // Save the MQTT broker details
 // -------------------------------------------------------------------
-extern void config_save_mqtt(String server, String topic, String prefix, String user, String pass);
+extern void config_save_mqtt(String server, String topic, String prefix, String user, String pass, String publishdelay);
 
 // -------------------------------------------------------------------
 // Save the Calibration details

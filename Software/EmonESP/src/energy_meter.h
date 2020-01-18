@@ -78,6 +78,8 @@
 #define VOLTAGE_GAIN_SOLAR 37106
 #define SOLAR_GAIN_CT1 39473
 #define SOLAR_GAIN_CT2 39473
+#define Publish_Delay 100
+
 #endif
 
 extern void energy_meter_setup();

@@ -72,6 +72,7 @@ String sct2_cal = "";
 #define EEPROM_EMON_PATH_SIZE     16
 #define EEPROM_EMON_NODE_SIZE     32
 #define EEPROM_MQTT_SERVER_SIZE   32
+#define EEPROM_MQTT_DELAY_SIZE    32
 #define EEPROM_MQTT_TOPIC_SIZE    32
 #define EEPROM_MQTT_USER_SIZE     32
 #define EEPROM_MQTT_PASS_SIZE     64
@@ -109,7 +110,9 @@ String sct2_cal = "";
 #define EEPROM_MQTT_USER_END      (EEPROM_MQTT_USER_START + EEPROM_MQTT_USER_SIZE)
 #define EEPROM_MQTT_PASS_START    EEPROM_MQTT_USER_END
 #define EEPROM_MQTT_PASS_END      (EEPROM_MQTT_PASS_START + EEPROM_MQTT_PASS_SIZE)
-#define EEPROM_EMON_FINGERPRINT_START  EEPROM_MQTT_PASS_END
+#define EEPROM_MQTT_DELAY_START   EEPROM_MQTT_PASS_END 
+#define EEPROM_MQTT_DELAY_END     (EEPROM_MQTT_DELAY_START + EEPROM_MQTT_DELAY_SIZE) 
+#define EEPROM_EMON_FINGERPRINT_START  EEPROM_MQTT_DELAY_END
 #define EEPROM_EMON_FINGERPRINT_END    (EEPROM_EMON_FINGERPRINT_START + EEPROM_EMON_FINGERPRINT_SIZE)
 #define EEPROM_MQTT_FEED_PREFIX_START  EEPROM_EMON_FINGERPRINT_END
 #define EEPROM_MQTT_FEED_PREFIX_END    (EEPROM_MQTT_FEED_PREFIX_START + EEPROM_MQTT_FEED_PREFIX_SIZE)
@@ -136,6 +139,7 @@ String sct2_cal = "";
 #define EEPROM_CAL_SCT1_END       (EEPROM_CAL_SCT1_START + EEPROM_CAL_SCT1_SIZE)
 #define EEPROM_CAL_SCT2_START     EEPROM_CAL_SCT1_END
 #define EEPROM_CAL_SCT2_END       (EEPROM_CAL_SCT2_START + EEPROM_CAL_SCT2_SIZE)
+
 #define EEPROM_CONFIG_END         EEPROM_CAL_SCT2_END
 #else
 #define EEPROM_CONFIG_END         EEPROM_CAL_GAIN_END
@@ -225,7 +229,7 @@ void config_load_settings()
   EEPROM_read_string(EEPROM_MQTT_FEED_PREFIX_START, EEPROM_MQTT_FEED_PREFIX_SIZE, mqtt_feed_prefix);
   EEPROM_read_string(EEPROM_MQTT_USER_START, EEPROM_MQTT_USER_SIZE, mqtt_user);
   EEPROM_read_string(EEPROM_MQTT_PASS_START, EEPROM_MQTT_PASS_SIZE, mqtt_pass);
-
+  EEPROM_read_string(EEPROM_MQTT_DELAY_START, EEPROM_MQTT_DELAY_SIZE, mqtt_publishdelay);
   // Calibration settings
   EEPROM_read_string(EEPROM_CAL_VOLTAGE_START, EEPROM_CAL_VOLTAGE_SIZE, voltage_cal);
   EEPROM_read_string(EEPROM_CAL_CT1_START, EEPROM_CAL_CT1_SIZE, ct1_cal);
@@ -273,7 +277,7 @@ void config_save_emoncms(String server, String path, String node, String apikey,
   EEPROM.end();
 }
 
-void config_save_mqtt(String server, String topic, String prefix, String user, String pass)
+void config_save_mqtt(String server, String topic, String prefix, String user, String pass, String publishdelay)
 {
   EEPROM.begin(EEPROM_SIZE);
 
@@ -282,7 +286,7 @@ void config_save_mqtt(String server, String topic, String prefix, String user, S
   mqtt_feed_prefix = prefix;
   mqtt_user = user;
   mqtt_pass = pass;
-
+  mqtt_publishdelay = publishdelay;
   // Save MQTT server max 45 characters
   EEPROM_write_string(EEPROM_MQTT_SERVER_START, EEPROM_MQTT_SERVER_SIZE, mqtt_server);
 
@@ -297,6 +301,9 @@ void config_save_mqtt(String server, String topic, String prefix, String user, S
 
   // Save MQTT pass max 64 characters
   EEPROM_write_string(EEPROM_MQTT_PASS_START, EEPROM_MQTT_PASS_SIZE, mqtt_pass);
+
+  // Save MQTT publish delay max 20 characters
+  EEPROM_write_string(EEPROM_MQTT_DELAY_START, EEPROM_MQTT_DELAY_SIZE, mqtt_publishdelay);
 
   EEPROM.end();
 }
